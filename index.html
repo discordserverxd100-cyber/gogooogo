@@ -3,84 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon 2026</title>
+    <title>Script 2026</title>
     <style>
-        /* Setup full screen black background */
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
             background-color: black;
             color: white;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Arial', sans-serif;
+            display: flex; justify-content: center; align-items: center;
             overflow: hidden;
         }
 
-        /* Message Styling */
-        #text-screen {
+        /* The Message */
+        #message-container {
             text-align: center;
-            z-index: 2;
+            display: block;
         }
 
-        h1 { font-size: 3rem; margin-bottom: 20px; color: white; }
-        p { font-size: 1.5rem; color: #aaaaaa; margin: 10px 0; }
+        h1 { font-size: 3rem; }
+        p { font-size: 1.5rem; color: #bbb; }
 
-        /* Video Container - Initially Hidden */
-        #video-container {
+        /* The Video Box */
+        #video-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            z-index: 5;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: none; /* Hidden at start */
             background: black;
         }
 
         iframe {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             border: none;
         }
     </style>
 </head>
 <body>
 
-    <div id="text-screen">
+    <div id="message-container" id="msg">
         <h1>Dear Everyone</h1>
         <p>We Are Going To Started Making Script On 2026</p>
         <p>Don't Be Shy</p>
         <p><strong>Please Wait For 2026</strong></p>
-        <br>
-        <p style="font-size: 1rem; color: #444;">If Script Stopped Working, Ask Me To Fix It</p>
+        <p style="font-size: 1rem; color: #666;">If Script Stopped Working, Ask Me To Fix It</p>
     </div>
 
-    <div id="video-container">
-        <iframe id="myVideo" 
-            src="https://www.youtube.com/embed/Pbw9sUL3j5E?autoplay=1&mute=1&controls=1&rel=0" 
+    <div id="video-wrapper">
+        <iframe id="youtubeVideo" 
+            src="https://www.youtube.com/embed/Pbw9sUL3j5E?autoplay=1&mute=1&start=0&controls=1&rel=0&enablejsapi=1" 
             allow="autoplay; encrypted-media" 
             allowfullscreen>
         </iframe>
     </div>
 
     <script>
-        // Set the timer for 10 seconds (10000 milliseconds)
-        setTimeout(function() {
-            // Hide the text
-            document.getElementById('text-screen').style.display = 'none';
-            
-            // Show the video container
-            document.getElementById('video-container').style.display = 'block';
+        const message = document.getElementById('message-container');
+        const videoBox = document.getElementById('video-wrapper');
+        const iframe = document.getElementById('youtubeVideo');
 
-            // Optional: Auto-hide video after 3 minutes (average video length)
-            // or let the user watch it fully.
-            // To make it disappear exactly when finished, 
-            // the YouTube API is needed, but it often causes the "Error" you saw.
-        }, 10000); 
+        // STEP 1: Wait 10 seconds to show the video
+        setTimeout(() => {
+            message.style.display = 'none';
+            videoBox.style.display = 'block';
+
+            // STEP 2: Wait 57 seconds (length of video) then make it gone
+            setTimeout(() => {
+                videoBox.style.display = 'none';
+                
+                // Optional: Show a "Thank you" or bring back the message
+                message.style.display = 'block';
+                message.innerHTML = "<h1>Thank you for watching!</h1><p>See you in 2026.</p>";
+            }, 57000); // 57 seconds in milliseconds
+
+        }, 10000); // 10 seconds initial wait
     </script>
 
 </body>
