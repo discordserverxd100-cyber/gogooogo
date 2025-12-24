@@ -3,223 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UgvsInfos V4 - Data Viewer</title>
+    <title>Coming Soon 2026</title>
     <style>
-        * {
+        /* Setup full screen black background */
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Courier New', monospace;
-            background: #0a0a0a;
-            color: #e0e0e0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
         }
-        
-        .ui900-container {
+
+        /* Message Styling */
+        #text-screen {
+            text-align: center;
+            z-index: 2;
+        }
+
+        h1 { font-size: 3rem; margin-bottom: 20px; color: white; }
+        p { font-size: 1.5rem; color: #aaaaaa; margin: 10px 0; }
+
+        /* Video Container - Initially Hidden */
+        #video-container {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            display: flex;
-            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 5;
+            background: black;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
             border: none;
-        }
-        
-        .ui900-head {
-            padding: 20px;
-            font-size: 24px;
-            font-weight: 900;
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.1);
-            border-bottom: 2px solid #00ff88;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
-        
-        .ui900-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .ui900-line {
-            margin: 2px 0;
-            white-space: pre;
-            font-size: 11px;
-            line-height: 1.3;
-            color: #00ff88;
-            text-shadow: 0 0 2px rgba(0, 255, 136, 0.3);
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .ui900-controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 100000;
-        }
-        
-        .control-btn {
-            padding: 8px 16px;
-            background: rgba(0, 255, 136, 0.2);
-            border: 1px solid #00ff88;
-            color: #00ff88;
-            cursor: pointer;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 12px;
-            transition: all 0.3s ease;
-        }
-        
-        .control-btn:hover {
-            background: rgba(0, 255, 136, 0.3);
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
-        
-        .loading-indicator {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            color: #00ff88;
-            font-size: 12px;
-            opacity: 0.7;
         }
     </style>
 </head>
 <body>
-    <div class="ui900-container">
-        <div class="ui900-head">UgvsInfos V4 - Public Data Viewer</div>
-        <div class="ui900-body" id="dataBody"></div>
+
+    <div id="text-screen">
+        <h1>Dear Everyone</h1>
+        <p>We Are Going To Started Making Script On 2026</p>
+        <p>Don't Be Shy</p>
+        <p><strong>Please Wait For 2026</strong></p>
+        <br>
+        <p style="font-size: 1rem; color: #444;">If Script Stopped Working, Ask Me To Fix It</p>
     </div>
-    
-    <div class="ui900-controls">
-        <button class="control-btn" onclick="togglePause()">Pause/Resume</button>
-        <button class="control-btn" onclick="clearData()">Clear</button>
-        <button class="control-btn" onclick="changeSpeed()">Speed</button>
+
+    <div id="video-container">
+        <iframe id="myVideo" 
+            src="https://www.youtube.com/embed/Pbw9sUL3j5E?autoplay=1&mute=1&controls=1&rel=0" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen>
+        </iframe>
     </div>
-    
-    <div class="loading-indicator" id="loadingIndicator">Loading data sources...</div>
 
     <script>
-        let isPaused = false;
-        let speed = 50;
-        let lineCount = 0;
-        
-        const body = document.getElementById('dataBody');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        
-        /* ----------  LIVE DATA SOURCES (public, non-breach)  ---------- */
-        const feeders = [
-            {
-                name: 'RandomUser',
-                url: 'https://randomuser.me/api/?results=100',
-                mapper: j => j.results.map(u => {
-                    const email = u.email.replace('@example.com', '@gmail.com');
-                    return `NAME: ${u.name.first} | LAST_NAME: ${u.name.last} | EMAIL: ${email} | PASSWORD: ${u.login.password} | LOCATION: ${u.location.city}, ${u.location.state}, ${u.location.country} | ADDRESS: ${u.location.street.number} ${u.location.street.name} | STREET_ADDRESS: ${u.location.street.number} ${u.location.street.name} | IP_ADDRESS: ${u.login.username}-IP | DEVICE: ${u.login.username} | CREDIT_CARD: ${u.login.username}-CC | PHONE_NUMBER: ${u.phone} | COMPANY_NAME: RandomUser | MOM_NAME: ${u.name.first}Mother | DAD_NAME: ${u.name.first}Father | SISTER_NAME: ${u.name.first}Sis | BROTHER_NAME: ${u.name.first}Bro | GRANDMA_NAME: ${u.name.first}Gran | GRANDPA_NAME: ${u.name.first}Grandad | DATE: ${u.dob.date} | BORN: ${u.dob.date} | SEX: ${u.gender} | COUNTRY: ${u.location.country} | RELIGION: Christian | LANGUAGE: ${u.nat} | AGE: ${u.dob.age} | SCHOOL_NAME: ${u.location.city} High | GENDER: ${u.gender} | CLASS: 12 | D.O.B: ${u.dob.date} | PH: ${u.phone} | MOB: ${u.cell} | FACE_COLOR: Brown | EYES_COLOR: Brown | HUMAN_SKIN_COLOR: Medium | USERNAME: ${u.login.username} | DISCORD_USERNAME: ${u.login.username}#1234 | SERVER_NAME: RandomHub`;
-                })
-            },
-            {
-                name: 'IPinfo',
-                url: 'https://ipinfo.io/json',
-                mapper: j => [`NAME: LocalUser | LAST_NAME: LocalUser | EMAIL: localuser@gmail.com | PASSWORD: localpass123 | LOCATION: ${j.city}, ${j.region}, ${j.country} | ADDRESS: ${j.postal} | STREET_ADDRESS: Local St | IP_ADDRESS: ${j.ip} | DEVICE: LocalDevice | CREDIT_CARD: LocalCC | PHONE_NUMBER: +1-555-0100 | COMPANY_NAME: ${j.org} | MOM_NAME: LocalMom | DAD_NAME: LocalDad | SISTER_NAME: LocalSis | BROTHER_NAME: LocalBro | GRANDMA_NAME: LocalGran | GRANDPA_NAME: LocalGrandad | DATE: Today | BORN: 1999-01-01 | SEX: Male | COUNTRY: ${j.country} | RELIGION: Christian | LANGUAGE: English | AGE: 25 | SCHOOL_NAME: Local High | GENDER: Male | CLASS: 12 | D.O.B: 1999-01-01 | PH: +1-555-0100 | MOB: +1-555-0101 | FACE_COLOR: Medium | EYES_COLOR: Brown | HUMAN_SKIN_COLOR: Medium | USERNAME: localuser | DISCORD_USERNAME: localuser#1234 | SERVER_NAME: LocalHub`]
-            },
-            {
-                name: 'CensusUSA',
-                url: 'https://api.census.gov/data/2023/acs/acs1?get=NAME,B01001_001E&for=place:*&key=demo',
-                mapper: j => j.slice(1).map(a =>
-                    `NAME: ${a[0]} | LAST_NAME: CensusUser | EMAIL: censususer@gmail.com | PASSWORD: censuspass123 | LOCATION: ${a[0]} | ADDRESS: CensusSt 1 | STREET_ADDRESS: CensusSt 1 | IP_ADDRESS: CensusIP | DEVICE: CensusDevice | CREDIT_CARD: CensusCC | PHONE_NUMBER: +1-555-0500 | COMPANY_NAME: US Census | MOM_NAME: CensusMom | DAD_NAME: CensusDad | SISTER_NAME: CensusSis | BROTHER_NAME: CensusBro | GRANDMA_NAME: CensusGran | GRANDPA_NAME: CensusGrandad | DATE: Today | BORN: 1985-01-01 | SEX: Male | COUNTRY: USA | RELIGION: Christian | LANGUAGE: English | AGE: 38 | SCHOOL_NAME: Census High | GENDER: Male | CLASS: 12 | D.O.B: 1985-01-01 | PH: +1-555-0500 | MOB: +1-555-0501 | FACE_COLOR: Light | EYES_COLOR: Blue | HUMAN_SKIN_COLOR: Light | USERNAME: censususer | DISCORD_USERNAME: censususer#7890 | SERVER_NAME: CensusHub`
-                )
-            },
-            {
-                name: 'WorldPop',
-                url: 'https://api.worldpop.org/v1/population/world/1',
-                mapper: j => [`NAME: World | LAST_NAME: Population | EMAIL: worldpop@gmail.com | PASSWORD: worldpoppass123 | LOCATION: Earth | ADDRESS: EarthAve 1 | STREET_ADDRESS: EarthAve 1 | IP_ADDRESS: EarthIP | DEVICE: EarthDevice | CREDIT_CARD: EarthCC | PHONE_NUMBER: +1-555-0600 | COMPANY_NAME: WorldPop | MOM_NAME: EarthMom | DAD_NAME: EarthDad | SISTER_NAME: EarthSis | BROTHER_NAME: EarthBro | GRANDMA_NAME: EarthGran | GRANDPA_NAME: EarthGrandad | DATE: Today | BORN: 2000-01-01 | SEX: Male | COUNTRY: World | RELIGION: Christian | LANGUAGE: English | AGE: 23 | SCHOOL_NAME: Earth High | GENDER: Male | CLASS: 12 | D.O.B: 2000-01-01 | PH: +1-555-0600 | MOB: +1-555-0601 | FACE_COLOR: Medium | EYES_COLOR: Green | HUMAN_SKIN_COLOR: Medium | USERNAME: earthuser | DISCORD_USERNAME: earthuser#1111 | SERVER_NAME: EarthHub`]
-            },
-            {
-                name: 'ScamCall',
-                url: 'https://scam-call.info/api/recent/100',
-                mapper: j => j.map(s =>
-                    `NAME: ScamVictim | LAST_NAME: ScamVictim | EMAIL: scamvictim@gmail.com | PASSWORD: scampass123 | LOCATION: ${s.country} | ADDRESS: ScamSt 99 | STREET_ADDRESS: ScamSt 99 | IP_ADDRESS: ScamIP | DEVICE: ScamDevice | CREDIT_CARD: ScamCC | PHONE_NUMBER: ${s.number} | COMPANY_NAME: ScamCall DB | MOM_NAME: ScamMom | DAD_NAME: ScamDad | SISTER_NAME: ScamSis | BROTHER_NAME: ScamBro | GRANDMA_NAME: ScamGran | GRANDPA_NAME: ScamGrandad | DATE: Today | BORN: 1995-01-01 | SEX: Female | COUNTRY: ${s.country} | RELIGION: Christian | LANGUAGE: English | AGE: 28 | SCHOOL_NAME: Scam High | GENDER: Female | CLASS: 12 | D.O.B: 1995-01-01 | PH: ${s.number} | MOB: +1-555-0401 | FACE_COLOR: Dark | EYES_COLOR: Brown | HUMAN_SKIN_COLOR: Dark | USERNAME: scamvictim | DISCORD_USERNAME: scamvictim#3456 | SERVER_NAME: ScamHub`
-                )
-            },
-            {
-                name: 'OpenCredit',
-                url: 'https://api.opencredit.eu/public/insolvencies?limit=100',
-                mapper: j => j.map(i =>
-                    `NAME: ${i.debtor.name} | LAST_NAME: Insolvent | EMAIL: insolvent@gmail.com | PASSWORD: insolventpass123 | LOCATION: ${i.country} | ADDRESS: InsolventSt 1 | STREET_ADDRESS: InsolventSt 1 | IP_ADDRESS: InsolventIP | DEVICE: InsolventDevice | CREDIT_CARD: InsolventCC | PHONE_NUMBER: +1-555-0300 | COMPANY_NAME: OpenCredit | MOM_NAME: InsolventMom | DAD_NAME: InsolventDad | SISTER_NAME: InsolventSis | BROTHER_NAME: InsolventBro | GRANDMA_NAME: InsolventGran | GRANDPA_NAME: InsolventGrandad | DATE: ${i.caseId} | BORN: ${i.debtor.birthDate} | SEX: Male | COUNTRY: ${i.country} | RELIGION: Christian | LANGUAGE: English | AGE: 40 | SCHOOL_NAME: Insolvent High | GENDER: Male | CLASS: 12 | D.O.B: ${i.debtor.birthDate} | PH: +1-555-0300 | MOB: +1-555-0301 | FACE_COLOR: Medium | EYES_COLOR: Green | HUMAN_SKIN_COLOR: Medium | USERNAME: insolventuser | DISCORD_USERNAME: insolventuser#9012 | SERVER_NAME: InsolventHub`
-                )
-            }
-        ];
-
-        let idx = 0;
-        
-        async function pump() {
-            if (isPaused) {
-                setTimeout(pump, 1000);
-                return;
-            }
+        // Set the timer for 10 seconds (10000 milliseconds)
+        setTimeout(function() {
+            // Hide the text
+            document.getElementById('text-screen').style.display = 'none';
             
-            const f = feeders[idx % feeders.length]; idx++;
-            try {
-                const r = await fetch(f.url);
-                const j = await r.json();
-                const lines = f.mapper(j);
-                
-                for (const ln of lines) {
-                    const line = document.createElement('div');
-                    line.className = 'ui900-line';
-                    line.textContent = ln;
-                    body.appendChild(line);
-                    
-                    lineCount++;
-                    if (lineCount % 100 === 0) {
-                        loadingIndicator.textContent = `Loaded ${lineCount} records...`;
-                    }
-                }
-                
-                body.scrollTop = body.scrollHeight;
-            } catch (e) {
-                console.log(`Failed to load ${f.name}: ${e.message}`);
-            }
-            
-            setTimeout(pump, speed);
-        }
+            // Show the video container
+            document.getElementById('video-container').style.display = 'block';
 
-        function togglePause() {
-            isPaused = !isPaused;
-        }
-
-        function clearData() {
-            body.innerHTML = '';
-            lineCount = 0;
-            loadingIndicator.textContent = 'Data cleared. Ready to load...';
-        }
-
-        function changeSpeed() {
-            const speeds = [10, 50, 100, 500, 1000];
-            const currentIndex = speeds.indexOf(speed);
-            speed = speeds[(currentIndex + 1) % speeds.length];
-            loadingIndicator.textContent = `Speed changed to ${speed}ms delay`;
-        }
-
-        // Start the data pump
-        setTimeout(() => {
-            loadingIndicator.style.display = 'none';
-            pump();
-        }, 2000);
+            // Optional: Auto-hide video after 3 minutes (average video length)
+            // or let the user watch it fully.
+            // To make it disappear exactly when finished, 
+            // the YouTube API is needed, but it often causes the "Error" you saw.
+        }, 10000); 
     </script>
+
 </body>
 </html>
