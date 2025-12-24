@@ -3,81 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Script 2026</title>
+    <title>2026 Script</title>
     <style>
         body, html {
             margin: 0; padding: 0;
             width: 100%; height: 100%;
             background-color: black;
             color: white;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             display: flex; justify-content: center; align-items: center;
             overflow: hidden;
         }
 
-        /* The Message */
         #message-container {
             text-align: center;
-            display: block;
+            z-index: 10;
         }
 
-        h1 { font-size: 3rem; }
-        p { font-size: 1.5rem; color: #bbb; }
-
-        /* The Video Box */
-        #video-wrapper {
+        #video-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            display: none; /* Hidden at start */
+            display: none; 
             background: black;
+            z-index: 20;
         }
 
-        iframe {
-            width: 100%; height: 100%;
-            border: none;
-        }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
-    <div id="message-container" id="msg">
+    <div id="message-container">
         <h1>Dear Everyone</h1>
         <p>We Are Going To Started Making Script On 2026</p>
         <p>Don't Be Shy</p>
         <p><strong>Please Wait For 2026</strong></p>
-        <p style="font-size: 1rem; color: #666;">If Script Stopped Working, Ask Me To Fix It</p>
+        <p style="font-size: 0.8rem; color: #555;">If Script Stopped Working, Ask Me To Fix It</p>
     </div>
 
-    <div id="video-wrapper">
-        <iframe id="youtubeVideo" 
-            src="https://www.youtube.com/embed/Pbw9sUL3j5E?autoplay=1&mute=1&start=0&controls=1&rel=0&enablejsapi=1" 
-            allow="autoplay; encrypted-media" 
-            allowfullscreen>
-        </iframe>
+    <div id="video-overlay">
+        <div id="player"></div>
     </div>
 
     <script>
-        const message = document.getElementById('message-container');
-        const videoBox = document.getElementById('video-wrapper');
-        const iframe = document.getElementById('youtubeVideo');
+        // Load YouTube API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // STEP 1: Wait 10 seconds to show the video
-        setTimeout(() => {
-            message.style.display = 'none';
-            videoBox.style.display = 'block';
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                // Use the No-Cookie URL to prevent it from remembering where you left off
+                host: 'https://www.youtube-nocookie.com',
+                videoId: 'Pbw9sUL3j5E',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 1,
+                    'start': 0,
+                    'rel': 0,
+                    'enablejsapi': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
 
-            // STEP 2: Wait 57 seconds (length of video) then make it gone
+        function onPlayerReady(event) {
+            // FORCE it to 0 seconds immediately
+            event.target.seekTo(0);
+            event.target.pauseVideo();
+
+            // Wait 10 seconds total
             setTimeout(() => {
-                videoBox.style.display = 'none';
+                // Show Video
+                document.getElementById('message-container').style.display = 'none';
+                document.getElementById('video-overlay').style.display = 'block';
                 
-                // Optional: Show a "Thank you" or bring back the message
-                message.style.display = 'block';
-                message.innerHTML = "<h1>Thank you for watching!</h1><p>See you in 2026.</p>";
-            }, 57000); // 57 seconds in milliseconds
+                // Force play from 0 again just to be sure
+                event.target.seekTo(0);
+                event.target.mute(); // Must be muted to autoplay in browsers
+                event.target.playVideo();
 
-        }, 10000); // 10 seconds initial wait
+                // Wait exactly 57 seconds then kill it
+                setTimeout(() => {
+                    document.getElementById('video-overlay').style.display = 'none';
+                    document.getElementById('message-container').style.display = 'block';
+                    event.target.stopVideo();
+                }, 57000); 
+
+            }, 10000);
+        }
     </script>
-
 </body>
 </html>
